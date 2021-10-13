@@ -1,6 +1,9 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Room {
+//fields
     private String name;
     private String item;
     private boolean currentRoom;
@@ -8,13 +11,36 @@ public class Room {
     private Room south;
     private Room east;
     private Room west;
+    public ArrayList<Item> itemList = new ArrayList<>();
+    public String describtion;
+    private String look;
 
 
-    public Room(String name, boolean currentRoom, String items) { // Constructor - En constructor er en cunstructor når den har det samme navn som en klasse
+    public Room(String name, boolean currentRoom, String item){ // Constructor - En constructor er en cunstructor når den har det samme navn som en klasse
         this.name = name;
         this.currentRoom = currentRoom;
-        this.item = items;
+        this.itemList = itemList;
+        this.look = look;
+        this.item = item;
 
+
+
+    }
+
+    public String getDescribtion() {
+        return describtion;
+    }
+
+    public void setDescribtion(String describtion) {
+        this.describtion = describtion;
+    }
+
+    public ArrayList<Item> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(ArrayList<Item> itemList) {
+        this.itemList = itemList;
     }
 
     public void setName(String name) {
@@ -52,6 +78,14 @@ public class Room {
         this.west = west;
     }
 
+    public String getLook() {
+        return look;
+    }
+
+    public void setLook(String look) {
+        this.look = look;
+    }
+
     public String getName() {
         return name;
     }
@@ -85,4 +119,9 @@ public class Room {
 
         System.out.println(this.item);
     }
+    public void addItem(Item item){
+        itemList.add(item);
+    }
+
+
 }

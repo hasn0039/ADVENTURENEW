@@ -1,25 +1,34 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    Player player = new Player();
+    Room room1 = new Room("Room 1", true, "start room");
+    Room room2 = new Room("Room 2", false, "there is a yellow penguin in the room and a in the cornor");
+    Room room3 = new Room("Room 3", false, "A message written in blood on the walls");
+    Room room4 = new Room("Room 4", false, "A pentagram drawn in chalk or blood with a half melted candles at the points of the star");
+    Room room5 = new Room("Room 5", false, "A violin, playing itself");
+    Room room6 = new Room("Room 6", false, "A child’s bedroom with the bed meticulously made and dark stains leading to under the bed");
+    Room room7 = new Room("Room 7", false, "A room that has torches in sconces lining the walls. In the center of the room " +
+            "is a key and a single candle that sheds darkness instead of light");
+    Room room8 = new Room("Room 8", false, "A diary of someone. It starts out fairly normal, but slowly descends into madness");
+    Room room9 = new Room("Room 9", false, "There is a eggplant on the floor ");
 
-    public static void main(String[] args) {
 
+    public void run(){
+        ArrayList<String> inventory = new ArrayList<>(List.of());
         Room[] rooms = new Room[9];
+
         int currentRoom = 0;
 
-        System.out.println("__//WELCOME TO THE LITTLE ADVENTURE\\\\__");
 
-        Room room1 = new Room("Room 1", true, "I see a huge dead monster in courtyard");
-        Room room2 = new Room("Room 2", false, "there is a yellow penguin in the room");
-        Room room3 = new Room("Room 3", false, "i see a couple of mega seeds on the ground");
-        Room room4 = new Room("Room 4", false, "im inside a hut with a lot of book and i see a bundle of keys on the floor");
-        Room room5 = new Room("Room 5", false, "there is a blue melon");
-        Room room6 = new Room("Room 6", false, "im inside a closet and there is a banana stickin out of a coat");
-        Room room7 = new Room("Room 7", false, "inside the bathroom i see a scapel on the floor and a overflowing bathtub its crimson red water spilling out i bel ");
-        Room room8 = new Room("Room 8", false, "There is a spoon on the floor with my name on");
-        Room room9 = new Room("Room 9", false, "There is a eggplant on the floor ");
+        System.out.println("__//WELCOME TO THE LITTLE ADVENTURE 3.0\\\\__");
+
+
+
 
         room1.setDirections(null, room4, room2, null);
         room2.setDirections(null, null, room3, room1);
@@ -30,6 +39,13 @@ public class Main {
         room7.setDirections(room4, null, room8, null);
         room8.setDirections(room5, null, room9, room7);
         room9.setDirections(room6, null, null, room8);
+
+
+        room1.addItem(new Item("sword"));
+        room2.addItem(new Food("apple of eden", 20));
+        room7.addItem(new Item("key"));
+        room9.addItem(new Food("eggplant", 10));
+
 
         rooms[0] = room1;
         rooms[1] = room2;
@@ -44,28 +60,33 @@ public class Main {
         while (true) {
             Scanner input = new Scanner(System.in);
             System.out.print("Where do you want to go?: ");
-            String inputUser = input.nextLine();
+            String inputA = input.nextLine();
 
 
-            switch (inputUser) {
+
+            switch (inputA) {
                 case "go n":
                 case "go north":
 
-                    for (int i = 0; i < rooms.length; i++) {
+                    for (int i = 0; i < rooms.length; i++)
                         if (rooms[i].isCurrentRoom()) {
                             if (rooms[i].getNorth() == null) {
                                 System.out.println("You can't go in that direction");
-                            } else {
+                            } else{
                                 rooms[i].setCurrentRoom(false);
                                 currentRoom = i;
                                 rooms[i].getNorth().setCurrentRoom(true);
                                 System.out.println("You are now in " + rooms[i].getNorth().getName());
 
+                            }if (rooms[i] == room1) {
+                                System.out.println(player.changeHealth(-50));
                             }
+
+
                             break;
                         }
 
-                    }
+
                     break;
                 case "go s":
                 case "go south":
@@ -80,7 +101,11 @@ public class Main {
                                 currentRoom = i;
                                 rooms[i].getSouth().setCurrentRoom(true);
                                 System.out.println("You are now in " + rooms[i].getSouth().getName());
+
+                            }if (rooms[i] == room1) {
+                                System.out.println(player.changeHealth(-50));
                             }
+
                             break;
                         }
 
@@ -99,8 +124,11 @@ public class Main {
                                 currentRoom = i;
                                 rooms[i].getWest().setCurrentRoom(true);
                                 System.out.println("You are now in " + rooms[i].getWest().getName());
+
                                 break;
-                            }
+                            }if (rooms[i] == room1) {
+                                System.out.println(player.changeHealth(-50));
+                            }break;
                         }
 
                     }
@@ -117,6 +145,12 @@ public class Main {
                                 currentRoom = i;
                                 rooms[i].getEast().setCurrentRoom(true);
                                 System.out.println("You are now in " + rooms[i].getEast().getName());
+
+
+
+
+                            }if (rooms[i] == room1) {
+                                System.out.println(player.changeHealth(-50));
                             }
                             break;
                         }
@@ -124,21 +158,84 @@ public class Main {
                     }
                     break;
             }
-            switch (inputUser) {
+
+            switch (inputA) {
+
+                case "check hp":
+                    player.getHealth();
+                    if (player.getHealth() <= 100 && player.getHealth() > 50) {
+                        System.out.println("you have " + player.getHealth() + " health, go out and fight");
+                    } else if (player.getHealth() <= 50 && player.getHealth() > 0) {
+                        System.out.println("you have " + player.getHealth() + " health, u shouldn't fight");
+                    } else if (player.getHealth() <= 0) {
+                        System.out.println("your health has dropped to 0 u are dead");
+                    }
+
+
+
+                    break;
+
+
+                case "check inven":
+                    System.out.println(inventory);
+
+                    break;
+                case "pickup":
+                    System.out.println("What do you do want pick up?");
+                    String item = input.nextLine();
+                    pickUp(inventory, item);
+
+                    break;
+                case "drop":
+                    System.out.println("What do you want to drop?");
+                    String drop = input.nextLine();
+                    dropitem(inventory, drop);
+
+                    break;
                 case "look":
                     System.out.println("You are now in " + rooms[currentRoom].getName());
-                    System.out.println("Items: " + rooms[currentRoom].getItem());
+                    System.out.println("lookin around: " + rooms[currentRoom].getItem());
 
                     break;
                 case "help":
                     System.out.println("Commands:");
-                    System.out.println("U can use one of the following commands to navigate around in the game 'go east/go north/go south/go west'.");
-                    System.out.println("Type 'look' - Use the command to what is around you .");
-                    System.out.println("Type 'exit' - to quit the game.");
+                    System.out.println("U can use one of the following commands to navigate around in the game -go east/go north/go south/go west-.");
+                    System.out.println("Type -look- - Use the command to what is around you and see which items you are able to pick up");
+                    System.out.println("Type -pickup- to pick up items in the rooms");
+                    System.out.println("Type -drop- to drop items from your inventory");
+                    System.out.println("Type -check hp- to see the players current health");
+                    System.out.println("Type -check inven- to see what you are carrying");
+
+                    System.out.println("Type -exit- - to quit the game.");
+
                     break;
                 case "exit":
                     break;
+
+
             }
         }
+    }
+
+    public static void main(String[] args) {
+       Main main = new Main();
+       main.run();
+    }
+
+
+    public static void pickUp(ArrayList<String> inventory, String item) {
+        inventory.add(item);
+
+    }
+
+    public static void dropitem(ArrayList<String> inventory, String item) {
+        inventory.remove(item);
+    }
+
+
+
+
+    public void takeDamage(int damage, Room room, Player player){
+
     }
 }
