@@ -16,7 +16,7 @@ public class Room {
     private String look;
 
 
-    public Room(String name, boolean currentRoom, String item){ // Constructor - En constructor er en cunstructor når den har det samme navn som en klasse
+    public Room(String name, boolean currentRoom, String item, ArrayList<Item> itemList){ // Constructor - En constructor er en cunstructor når den har det samme navn som en klasse
         this.name = name;
         this.currentRoom = currentRoom;
         this.itemList = itemList;
@@ -39,9 +39,9 @@ public class Room {
         return itemList;
     }
 
-    public void setItemList(ArrayList<Item> itemList) {
-        this.itemList = itemList;
-    }
+
+
+
 
     public void setName(String name) {
         this.name = name;
@@ -114,8 +114,13 @@ public class Room {
         return west;
     }
 
-    public void look() {
-        System.out.println("You are currently in " + name);
+
+    public void addItem(Item item){
+        itemList.add(item);
+    }
+    public void removeItem(Item item){
+        itemList.remove(item);
+    }
 
         System.out.println(this.item);
     }
@@ -123,5 +128,18 @@ public class Room {
         itemList.add(item);
     }
 
+    @Override
+    public String toString() {
 
+        return "Room{" +
+                "name='" + name + '\'' +
+                ", item='" + item + '\'' +
+                ", currentRoom=" + currentRoom +
+                ", north=" + north +
+                ", south=" + south +
+                ", east=" + east +
+                ", west=" + west +
+
+                '}';
+    }
 }
